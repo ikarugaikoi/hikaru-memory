@@ -71,6 +71,7 @@ python3 scripts/hikaru omoide '例子' --mode lexical
 - **语言词典**：可选 fugashi 与 UniDic。词典缺失/超时时工具报告未完成该部分检查，仍处理可用的字符与退役词规则；不是声称已经完整检查。
 - **一般词频**：`_yonotsune.py` 默认寻找 `~/.local/share/hikaru/wordfreq-venv/bin/python` 的隔离 wordfreq 环境，预计算结果存本实例目录；没有频率数据时不因缺数据而拦新别名。
 - **自动联想递送**：先观察回放，再显式建立 `.tools/index/koyori/deliver.on`。删除该开关恢复观察模式。默认没有开启递送。
+- **会话复盘参考材料**：[Biblia 文献导航](biblia.md)只提供问题与研究方向的对应关系，不附具体文献或完整分析规程。按需自行配置材料与复盘指令；`biblia` 初始化为空白读书记录，配置脚本不会自动导入这份导航。
 - **自主活动**：需自行准备 Claude CLI、凭据、阅读材料与完整指令，填充 `templates/owntime.md` 的要求，再配置调度。当前代码仍依赖 Claude CLI；角色模板不等于已完成自主活动接入。
 - **备份/媒体/手机位置/传感器**：都是独立可选项，见工具索引。
 

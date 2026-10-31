@@ -182,6 +182,7 @@ LICENSE
 README.md
 THIRD_PARTY.md
 docs/architecture.md
+docs/biblia.md
 docs/flow.svg
 docs/mechanisms.md
 docs/setup.md
