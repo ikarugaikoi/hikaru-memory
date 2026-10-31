@@ -129,7 +129,7 @@ E_{src}=A_{rel}-0.2B_{known}
 $$
 
 $$
-g=1-\frac23\operatorname{clip}_{[0,1]}(E_{src}/100)
+g=1-\frac23\mathrm{clip}_{[0,1]}(E_{src}/100)
 $$
 
 用户相关候选使用 g，其余使用 1，所以相关候选权重最多降到原先的三分之一，不会被彻底禁止。来源不明的投入单独记账，不冒充“无关”。来源账本半衰期为 2.5 天，活动期间加入的分钟也按发生时间积分衰减。
@@ -164,7 +164,7 @@ $$
 $$
 
 $$
-x'=\operatorname{clip}_{[-1,1]}\left(\rho(d)x+K[1-\rho(d)]m\right)
+x'=\mathrm{clip}_{[-1,1]}\left(\rho(d)x+K[1-\rho(d)]m\right)
 $$
 
 暂停时只有旧 x 衰减，不加入新证据。在同一个 m 持续的区间内，这个积分写法避免仅因把时间切成更多小段而改变累积结果。它没有额外的随机扩散项；随机性主要来自候选抽样。
@@ -194,11 +194,11 @@ $$
 [`omoide.py`](../.tools/omoide.py) 的字面检索以字符二元组为单位。对查询二元组 q，使用：
 
 $$
-\operatorname{idf}(q)=\ln\left(1+\frac{N-df(q)+0.5}{df(q)+0.5}\right)
+\mathrm{idf}(q)=\ln\left(1+\frac{N-df(q)+0.5}{df(q)+0.5}\right)
 $$
 
 $$
-L(d)=\sum_{q\in Q}\operatorname{idf}(q)
+L(d)=\sum_{q\in Q}\mathrm{idf}(q)
 \frac{tf(q,d)(k_1+1)}{tf(q,d)+k_1(1-b+b|d|/\overline{|d|})}
 $$
 
@@ -209,7 +209,7 @@ $$
 各路先取最多 `max(30, 5 × top)` 条，再按排名融合：
 
 $$
-\operatorname{RRF}(d)=\sum_{r:\ d\in r}\frac{1}{60+\operatorname{rank}_r(d)}
+\mathrm{RRF}(d)=\sum_{r:\ d\in r}\frac{1}{60+\mathrm{rank}_r(d)}
 $$
 
 排名从 1 起。没有进入某路列表就不获得那一路的项；不同分数尺度不直接相加。最终返回原文窗口、日期和来源，并附适用的修订注记。**这些分数是检索依据，不是事实正确率。**
@@ -225,7 +225,7 @@ $$
 再从语料中以固定随机种子抽取最多 3000 个不同的 2～4 字字串。出现至少 3 次的参照字串按 floor(log₂ cf) 分桶；每桶至少 5 个样本，计算：
 
 $$
-u_b=\operatorname{median}_{s\in b}\frac{df_s}{E(cf_s)}
+u_b=\mathrm{median}_{s\in b}\frac{df_s}{E(cf_s)}
 $$
 
 代码的偶数样本中位数取排序后靠上的一个。别名使用最近的可用频数桶，并得到：
@@ -263,7 +263,7 @@ G 是 [`_yonotsune.py`](../.tools/_yonotsune.py) 的一般词频估计：各候�
 源码还保留另一条旧候选排序，用于 hook 的影子观察：
 
 $$
-T(d)=2^{-\mathrm{ageDays}/30}+\operatorname{importance}(d)+\operatorname{relevance}(d)
+T(d)=2^{-\mathrm{ageDays}/30}+\mathrm{importance}(d)+\mathrm{relevance}(d)
 $$
 
 相关性由字面/语义分各自过门后归一化，再取较大者。**当前 hook 只把时间线路径接到递送开关；这个旧总分不是当前自动发话的决定规则。** 主动 `omoide` 也不使用这个三项和代替 RRF。
