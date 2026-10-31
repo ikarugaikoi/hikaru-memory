@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+"""Run tools using paths owned by this installation. No automatic service startup."""
+import json
+import os
+from pathlib import Path
+import sys
+
+root=Path(__file__).resolve().parents[1]
+try: config=json.loads((root/'settings.local.json').read_text())
+except (OSError,ValueError): sys.exit('Copy settings.example.json to settings.local.json, fill it in, then run scripts/configure.py')
+if len(sys.argv)<2: sys.exit('Usage: python3 scripts/hikaru TOOL [arguments]')
+env=dict(os.environ)
+def put(key,value):env[key]=str(value)
+for key,value in {
+ 'HIKARU_ROOT':root,'HIKARU_CODE_ROOT':root,'HIKARU_DATA_ROOT':root,
+ 'HIKARU_LOG_ROOT':config.get('log_root') or root/'.local/logs',
+ 'HIKARU_PROJECT_IDENTITY':config.get('project_identity') or root,
+ 'HIKARU_WORK':root/'.local/work','HIKARU_OWNTIME_STATE':root/'.local/state/owntime',
+ 'HIKARU_DOKO_FILE':root/'.local/state/doko.json',
+ 'HIKARU_LOCATION_CONFIG':root/'.local/config','HIKARU_LOCATION_STATE':root/'.local/state',
+ 'HIKARU_EMBED_SOCK':root/'.local/embed.sock','HIKARU_CLAUDE_TOKEN':root/'.local/config/oauth-token',
+ 'HIKARU_MEGANE_PYTHON':sys.executable,'HIKARU_PYTHON':sys.executable,
+}.items():put(key,value)
+name=sys.argv[1];args=sys.argv[2:]
+core={'fuutou','mezame','ima','oshirase','ochibo','shirushi','choubo','koyomi'}
+python={'omoide','_embed','_koyori','_taguri','taguri_hook','_yonotsune','_ayame','_kotoba','_prune','_misekechi','doko','doko_recv','kehai','kohaku','kotozute','tomonari','omron_read','mizukagami'}
+if name in core: cmd=[str(root/'.tools/bin/hikaru-core'),name,*args]
+elif name=='owntime':cmd=[str(root/'.tools/bin/hikaru-owntime'),*args]
+elif name in python:cmd=[sys.executable,str(root/'.tools'/f'{name}.py'),*args]
+else:sys.exit('Unknown tool: '+name)
+os.execvpe(cmd[0],cmd,env)

@@ -1,0 +1,9 @@
+{
+  "display_name": "YOUR_NAME",
+  "assistant_name": "Hikaru",
+  "privacy_phrases": [["REPLACE_WITH_PRIVATE_START", "REPLACE_WITH_PRIVATE_END"]],
+  "log_root": "",
+  "project_identity": "",
+  "weather": {"enabled": false, "latitude": null, "longitude": null},
+  "backup": {"executable": "", "repository": "", "password_command": "", "sources": []}
+}

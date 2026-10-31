@@ -1,0 +1,26 @@
+{
+  "entries": [
+    {
+      "id": "user",
+      "now": "ユーザー",
+      "count_fixed": true
+    },
+    {
+      "id": "keep-user",
+      "now": "（ねゆき）",
+      "keep_mark": true
+    },
+    {
+      "id": "keep-agent",
+      "now": "（いけび）",
+      "keep_mark": true
+    },
+    {
+      "id": "example-invalid-inflection",
+      "now": "埋め合わせた",
+      "find": [
+        "賠った"
+      ]
+    }
+  ]
+}

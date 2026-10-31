@@ -1,0 +1,168 @@
+cabal-version: 3.0
+name: hikaru-core
+version: 0.1.0.0
+build-type: Simple
+synopsis: Haskell core for the Hikaru memory tools
+
+executable hikaru-core
+  main-is: Main.hs
+  hs-source-dirs: app, src, .generated
+  c-sources: cbits/time_compat.c, cbits/filesystem_compat.c, cbits/log_scan_compat.c
+  extra-libraries: icucore
+  other-modules:
+      Hikaru.Calendar
+      Hikaru.Ochibo.Archivable
+      Hikaru.Ochibo.CLI
+      Hikaru.Ochibo.Files
+      Hikaru.Ochibo.Format
+      Hikaru.Ochibo.Plan
+      Hikaru.Ochibo.Read
+      Hikaru.Compat.Base64
+      Hikaru.Compat.Convert
+    Hikaru.Compat.Diagnostic
+    Hikaru.Compat.DateTimeDiagnostic
+    Hikaru.Compat.ValueDiagnostic
+      Hikaru.Compat.Diff
+      Hikaru.Compat.Digit
+      Hikaru.Compat.Exception
+      Hikaru.Compat.FileSystem
+      Hikaru.Compat.Hash
+      Hikaru.Compat.Json
+      Hikaru.Compat.Normalize
+      Hikaru.Compat.Number
+      Hikaru.Compat.Render
+      Hikaru.Compat.Set
+      Hikaru.Compat.Sort
+      Hikaru.Compat.SHA256
+      Hikaru.Compat.Stderr
+      Hikaru.Compat.Text
+      Hikaru.Compat.Time
+      Hikaru.Compat.Unicode
+      Hikaru.Local.Settings
+      Hikaru.Config
+      Hikaru.Decimal
+      Hikaru.Entry
+      Hikaru.Conversation.DateTime
+      Hikaru.Conversation.Parse
+      Hikaru.Conversation.AsciiNewline
+    Hikaru.Conversation.ReadLines
+      Hikaru.Conversation.Types
+      Hikaru.Conversation.Input
+      Hikaru.Conversation.JSONL
+      Hikaru.Conversation.Line
+      Hikaru.Conversation.Hidden
+      Hikaru.Conversation.Tobari
+      Hikaru.Diary.OneLine
+      Hikaru.Diary.Syntax
+      Hikaru.Diary.Check
+      Hikaru.HouseDay
+      Hikaru.Sealed
+      Hikaru.Shiori
+      Hikaru.RecordText
+      Hikaru.RecordRead
+      Hikaru.Oshirase.Notice
+      Hikaru.Oshirase.NoticePending
+      Hikaru.Oshirase.NoticeScan
+      Hikaru.Ima.Now
+      Hikaru.Hook.Input
+      Hikaru.Hook.Path
+      Hikaru.Hook.Log
+      Hikaru.Ima.NowScan
+      Hikaru.Hook.ReadCommand
+      Hikaru.Choubo.Types
+      Hikaru.Choubo.Consumer
+      Hikaru.Choubo.Canonical
+      Hikaru.Choubo.Reader
+      Hikaru.Choubo.JsonLine
+      Hikaru.Choubo.Store
+      Hikaru.Choubo.Now
+      Hikaru.Choubo.Context
+      Hikaru.Choubo.ConsumerProjection
+      Hikaru.Choubo.Hidden
+      Hikaru.Choubo.Wake
+      Hikaru.Shirushi.Analyze
+      Hikaru.Shirushi.Id
+      Hikaru.Shirushi.Json
+      Hikaru.Shirushi.Syntax
+      Hikaru.Shirushi.Language
+      Hikaru.Shirushi.Parse
+      Hikaru.Shirushi.Render
+      Hikaru.Shirushi.RepeatTable
+    Hikaru.Shirushi.Repeats
+      Hikaru.Shirushi.Types
+      Hikaru.Shirushi.Usage
+      Hikaru.Shirushi.Workflow
+      Hikaru.Memory.Correction.Annotate
+      Hikaru.Memory.Correction.Check
+      Hikaru.Memory.Correction.Parse
+      Hikaru.Memory.Correction.Render
+      Hikaru.Memory.Correction.Summary
+      Hikaru.Memory.Correction.Types
+      Hikaru.Memory.Fade
+      Hikaru.Memory.FadeInstructions
+      Hikaru.Memory.Strobe
+      Hikaru.Memory.FadePolicy
+      Hikaru.Memory.Text
+      Hikaru.Memory.Yuugao
+      Hikaru.Memory.Validation
+      Hikaru.Weather
+      Hikaru.Weather.Types
+      Hikaru.Weather.Parse
+      Hikaru.Weather.Json
+      Hikaru.Weather.Render
+      Hikaru.Weather.Transport
+      Hikaru.Sazanami
+      Hikaru.Koyomi.Service
+      Hikaru.Fuutou.CLI
+      Hikaru.Fuutou.Entry
+      Hikaru.Fuutou.Core
+      Hikaru.Fuutou.Progress
+      Hikaru.Fuutou.Record
+      Hikaru.Fuutou.Text
+      Hikaru.Store.Coordinator
+      Hikaru.Store.Backup
+      Hikaru.Store.Edit
+      Hikaru.Store.Actions
+      Hikaru.Store.Execute
+      Hikaru.Store.EditPlan
+      Hikaru.Fuutou.Check
+      Hikaru.Store.Environment
+      Hikaru.Store.Paging
+      Hikaru.Store.Prune
+      Hikaru.Store.Sealed
+      Hikaru.Store.State
+      Hikaru.Store.Work
+      Hikaru.Mezame.Items
+      Hikaru.Mezame.Input
+      Hikaru.Output
+      Hikaru.Mezame.Progress
+      Hikaru.Mezame.Signal
+      Hikaru.Mezame.Workflow
+      Hikaru.OwnTime.Files
+      Hikaru.OwnTime.Errors
+      Hikaru.OwnTime.Health
+  default-language: GHC2021
+  ghc-options: -O2 -Wall -threaded -rtsopts
+  build-depends:
+      base ==4.20.2.0
+    , aeson ==2.3.2.0
+    , http-client ==0.7.19
+    , http-client-tls ==0.3.6.4
+    , megaparsec ==9.8.2
+    , parser-combinators ==1.3.1
+    , bytestring ==0.12.2.0
+    , containers ==0.7
+    , directory ==1.3.8.5
+    , filepath ==1.5.4.0
+    , scientific ==0.3.8.1
+    , text ==2.1.3
+    , time ==1.12.2
+    , vector ==0.13.2.0
+    , base64-bytestring ==1.2.1.0
+    , unix ==2.8.7.0
+    , transformers ==0.6.1.1
+    , crypton ==1.0.6
+    , process ==1.6.26.1
+    , random ==1.3.1
+    , hashable ==1.5.1.0
+    , unordered-containers ==0.2.21
