@@ -184,6 +184,7 @@ THIRD_PARTY.md
 docs/architecture.md
 docs/biblia.md
 docs/flow.svg
+docs/limitations.md
 docs/mechanisms.md
 docs/setup.md
 docs/tools.md
