@@ -32,6 +32,16 @@ One exploratory run used all archived conversation passages from 30 conversation
 - 41 labeled purely everyday expressions;
 - 99 undetermined, excluded from both class denominators.
 
+Here, **aliases** come from the current-understanding entries maintained during daily consolidation. The model organizes people, places, objects, and shared experiences into entries, then records names and expressions that can refer to them. Automatic association matches these aliases against the current conversation. **Evaluation labels** are separate categories assigned to aliases for the experiment, used to count which triggers were retained or filtered out.
+
+The examples below are synthetic illustrations of the categories, not entries from the actual list of 305 aliases:
+
+- **Everyday expressions:** “good night,” “I don’t know,” or “ただいま” (“I’m home”). These occur in many different conversations; their recurrence alone usually does not identify a particular shared experience.
+- **Specific names:** a shop name such as “Starbridge Books,” or “the ginkgo bookmark” when it clearly refers to the same object across conversations. These provide an entity to look up in the timeline.
+- **Shared expressions:** two people agree to “just have a quick look” in a bookshop but end up staying for a long time. Saying “just a quick look” later can bring back that experience. A shared expression can consist entirely of ordinary words; its use in the shared context is what matters.
+
+These categories describe how an expression is used in this conversation history. Even “good night” could become a shared expression if it later serves as a specific name for an experience. If the wording alone is insufficient to decide, the label remains undetermined. A category label does not guarantee that any particular association will be useful.
+
 One model supplied the labels, initially without seeing scores. The everyday-expression category was narrowed later. Segmentation, reference sample size, and thresholds were explored on the same material, with no independent holdout.
 
 The candidate condition disabled an automatic trigger when occurrences > 6, general-frequency Zipf ≥ 4.0, and day-based clumping < 0.25. Older filtering also included high day coverage, shared aliases, and suffixes of other aliases. The final replay compared adding this condition to the older rules.
