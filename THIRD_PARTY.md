@@ -1,5 +1,7 @@
 # 第三方说明
 
+**中文** · [English](THIRD_PARTY.en.md) · [日本語](THIRD_PARTY.ja.md)
+
 本仓库采用 [MIT 协议](LICENSE)；第三方代码仍适用各自的原有许可。
 
 - `third-party/CPython-LICENSE.txt`：兼容层涉及 CPython 行为或实现来源的部分；相关源文件中的归属注释保留。

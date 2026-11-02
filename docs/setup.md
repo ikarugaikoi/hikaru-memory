@@ -1,5 +1,7 @@
 # 安装与配置
 
+**中文** · [English](en/setup.md) · [日本語](ja/setup.md) · [首页](../README.md)
+
 ## 环境与范围
 
 当前验证：macOS arm64、GHC 9.10.3、Cabal、Python 3.12.12、Apple 开发工具。`icucore`、若干 C 兼容函数和沙盒使用 macOS 接口。其他平台需要移植，不能直接删掉沙盒来当作完成移植。

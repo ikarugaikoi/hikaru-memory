@@ -1,5 +1,7 @@
 # 本地发布验证
 
+**中文** · [English](en/validation.md) · [日本語](ja/validation.md) · [首页](../README.md)
+
 2026-10-31，macOS arm64，GHC 9.10.3，Python 3.12.12。
 
 ## 已执行

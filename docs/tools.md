@@ -1,5 +1,7 @@
 # 工具索引
 
+**中文** · [English](en/tools.md) · [日本語](ja/tools.md) · [首页](../README.md)
+
 统一入口：`python3 scripts/hikaru TOOL ...`。该入口把日志、工作目录、索引 socket、位置状态和后台活动状态指向本安装。代码中的日文名称保留，下面按功能解释。
 
 ## 日常记忆工具
