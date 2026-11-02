@@ -185,6 +185,7 @@ docs/architecture.md
 docs/biblia.md
 docs/flow.svg
 docs/limitations.md
+docs/locomo-2026-11-02.md
 docs/mechanisms.md
 docs/setup.md
 docs/tools.md
