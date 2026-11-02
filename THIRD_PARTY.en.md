@@ -11,4 +11,4 @@ This repository uses the [MIT license](LICENSE). Third-party code retains its re
 - Python model dependencies and BGE-M3/E5 weights have their own licenses; weights are not included.
 - Optional `mediaremote-adapter`, restic, fugashi, UniDic, wordfreq, libusb, and Claude CLI must be installed separately and are not redistributed here.
 
-This release does not copy implementation code from lsby/ai-memory. Its link remains as background for the introduction and discussion. Original license texts are retained without translation or alteration.
+This release does not copy implementation code from lsby/ai-memory. The link acknowledges its influence on the project introduction and the discussions behind it. Original license texts are retained without translation or alteration.

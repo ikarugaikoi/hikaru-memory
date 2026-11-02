@@ -2,7 +2,7 @@
 
 [中文](../tools.md) · **English** · [日本語](../ja/tools.md) · [Home](../../README.en.md)
 
-Common entry point: `python3 scripts/hikaru TOOL ...`. It directs logs, working directories, index sockets, location state, and background-activity state to this installation. Japanese command names remain unchanged; their functions are explained below.
+Common entry point: `python3 scripts/hikaru TOOL ...`. The launcher configures paths for this installation’s logs, working directories, index sockets, location state, and background activity. Japanese command names remain unchanged; their functions are explained below.
 
 ## Everyday memory tools
 
@@ -24,7 +24,7 @@ Common entry point: `python3 scripts/hikaru TOOL ...`. It directs logs, working 
 |---|---|
 | `show NAME` | Display a record, optionally paginated; reading does not rewrite it |
 | `open NAME` / `close NAME` | Open a temporary draft and retain a version baseline; validate version and content constraints before saving |
-| `reopen NAME` | Realign a draft with a concurrently changed record, retaining local edits for review |
+| `reopen NAME` | Refresh a draft’s version baseline after concurrent changes, preserving local edits for review |
 | `append NAME FILE` | Append a paragraph after language checks and core write checks |
 | `diary DAY FILE` | Write a day's diary; validate structure and new text |
 | `read DAY FILE` / `read DAY FILE --check` | Write or only validate a conversation review; does not run the same language scan as append |
@@ -43,7 +43,7 @@ Common entry point: `python3 scripts/hikaru TOOL ...`. It directs logs, working 
 
 | File / entry | Function |
 |---|---|
-| `_koyori.py` / `_koyori --rebuild` | Catalog, integration of mechanical cues with CA judgments, experience-protection mappings, alias timelines, source signatures |
+| `_koyori.py` / `_koyori --rebuild` | Catalog, integration of mechanical cues with CA judgments, experience-protection mappings, alias timelines, source identifiers |
 | `_koyori_types.py` | `Entry`, `Chunk`, `Judgment`, `Footprint`, and other catalog structures |
 | `_taguri.py` / `_taguri QUERY --timeline` | Find the previous experience through a matched alias; also retains candidate-search and replay paths |
 | `_taguri --footprints ...` | Search activity records by dates, material, setting, and reading progress; explicit conditions filter, preferences rank |
@@ -77,22 +77,22 @@ Entry: `python3 scripts/hikaru owntime ...`. Source: `Hikaru/OwnTime/`.
 
 | Tool / file | Function |
 |---|---|
-| `_kotoba.py` | Minimal pre-write language check: character forms, configured retired expressions, optional dictionary cues. Suspicious text pauses the write until corrected or acknowledged with `--lang-ok` |
-| `rosetta.json` | Project vocabulary, protected markers, retired expressions; the release contains only minimal generic examples |
+| `_kotoba.py` | Minimal pre-write language check: character forms, configured deprecated expressions, optional dictionary cues. Suspicious text pauses the write until corrected or acknowledged with `--lang-ok` |
+| `rosetta.json` | Project vocabulary, protected markers, deprecated expressions; the release contains only minimal generic examples |
 | `mizukagami.py` | Targeted wording repairs in existing records: `prepare`, `round2` to import second-review results, bounded `apply`, and `ack`; retains version/protection checks |
 | `tomonari.py` | Find similar rules across persona instructions, record preambles, and tool rules to reduce duplication |
 | `_haskell_rules.py` | Extract rule text from explicitly registered Haskell definitions for rule deduplication |
 | `kotozute.py` | Restore unanswered questions after context compaction |
-| `kohaku.py` | restic backup/checks for explicitly configured directories; blank settings cannot back up |
-| `_hk.py` | Shared Python date, path, wrapping, locking, phrase, record, and progress operations |
-| `_tool_data.py` | Shared file boundaries, JSON/wrapped reads, error handling, location paths |
+| `kohaku.py` | restic backup/checks for explicitly configured directories; backup is disabled until configured |
+| `_hk.py` | Shared Python date, path, Base64 encoding, locking, phrase, record, and progress operations |
+| `_tool_data.py` | Shared file boundaries, JSON and Base64 decoding, error handling, location paths |
 | `_history.py` | Structured activity-history reading and append helpers |
 
 ## Environmental inputs (all optional)
 
 | Tool | Function and dependencies |
 |---|---|
-| `doko.py` | Format known location/presence events as one line; no personal location is fabricated without configuration |
+| `doko.py` | Format known location/presence events as one line; does not invent a location when no source is configured |
 | `doko_recv.py` | Receive token-authenticated Wi-Fi/OwnTracks events; maintain current/previous state. Configure Tailscale, place mappings, and devices yourself; installation does not start it |
 | `kehai.py` | macOS media playback state; requires separately installed `mediaremote-adapter` |
 | `omron_read.py` | Read a specific OMRON environmental sensor using libusb and hardware; not a general system-state interface |

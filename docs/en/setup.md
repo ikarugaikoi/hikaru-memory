@@ -4,7 +4,7 @@
 
 ## Environment and scope
 
-Validated with macOS arm64, GHC 9.10.3, Cabal, Python 3.12.12, and Apple developer tools. `icucore`, several C compatibility functions, and sandboxing use macOS APIs. Other platforms require porting; removing the sandbox is not a completed port.
+Validated with macOS arm64, GHC 9.10.3, Cabal, Python 3.12.12, and Apple developer tools. `icucore`, several C compatibility functions, and sandboxing use macOS APIs. Other platforms require porting, including an equivalent sandbox.
 
 A full installation on a fresh machine has not been verified. Local builds used an existing pinned dependency database; dependency caches and binaries are not included in the release.
 
@@ -18,12 +18,12 @@ Edit the local JSON:
 
 | Field | Meaning |
 |---|---|
-| `display_name`, `assistant_name` | Names used in generated host instructions; core formats retain stable speaker markers |
-| `privacy_phrases` | One or more start/end pairs for no-record intervals. Supply your own. Matches whole user messages after specified punctuation is ignored |
+| `display_name`, `assistant_name` | Names used in generated host instructions; core formats retain fixed speaker markers |
+| `privacy_phrases` | User-defined pairs of phrases that start and end no-record intervals; matched against the entire user message after ignoring specified punctuation |
 | `log_root` | Authorized Claude Code project JSONL directory; blank uses this instance's empty `.local/logs` |
 | `project_identity` | Project path matched against log `cwd`; blank uses the absolute repository path |
 | `weather.enabled` | Defaults to `false`; valid latitude/longitude are required when enabled |
-| `backup` | restic executable, repository, password-reading command, and source directories; incomplete configuration does not run |
+| `backup` | restic executable, repository, password-reading command, and source directories; backup does not run if configuration is incomplete |
 
 ```bash
 python3 scripts/configure.py
@@ -67,18 +67,18 @@ python3 scripts/hikaru omoide 'example' --mode lexical
 
 Inspect the dry-run log scope before archiving. `log_root` and `project_identity` must identify the same authorized project. If user messages are missing, inspect log fields and identity filters rather than broadening the search to the entire home directory.
 
-The current adapter targets Claude Code. Direct user messages require `origin.kind == "human"`; it also checks `cwd`, type, time, and other fields. Other clients need adapters, not merely a different extension.
+The current adapter targets Claude Code. Direct user messages require `origin.kind == "human"`; it also checks `cwd`, type, time, and other fields. Other clients require log adapters; changing the filename extension is not enough.
 
 Host hooks can call `python3 /absolute/path/scripts/hikaru ima`, `oshirase`, or `taguri_hook`, passing the required JSON through standard input. Global Claude settings are not edited automatically. Check hook events and input formats for your client version before enabling them.
 
 ## 4. Optional capabilities
 
 - **Hybrid retrieval:** install the dependencies in `.tools/haskell-src/requirements-model-macos-arm64.lock` into your Python environment; download weights separately. Use the same interpreter for `scripts/hikaru _embed` and `scripts/hikaru omoide ... --mode hybrid`. This lock records the original environment, not a verified fresh-machine installation.
-- **Language dictionary:** optional fugashi and UniDic. If unavailable or timed out, the tool reports that this part of the check did not finish, while applying available character and retired-expression rules. It does not claim a complete check.
-- **General frequency:** `_yonotsune.py` looks by default for an isolated wordfreq environment at `~/.local/share/hikaru/wordfreq-venv/bin/python`; precomputed results are stored within the instance. Missing frequency data does not by itself block a new alias.
+- **Language dictionary:** optional fugashi and UniDic. If unavailable or timed out, the tool reports that this part of the check did not finish, while applying available character and deprecated-expression rules. It does not claim a complete check.
+- **General-language frequency:** `_yonotsune.py` looks by default for an isolated wordfreq environment at `~/.local/share/hikaru/wordfreq-venv/bin/python`; precomputed results are stored within the instance. Missing frequency data does not by itself block a new alias.
 - **Automatic association delivery:** observe replays first, then explicitly create `.tools/index/koyori/deliver.on`. Removing it returns to observation-only mode. Delivery is off by default.
 - **Conversation-review literature:** [Biblia](biblia.md) maps questions to research directions without supplying specific papers or a full procedure. Configure your own material and instructions. The `biblia` record starts empty; configuration does not import this guide.
-- **Autonomous activity:** supply Claude CLI, credentials, reading material, and complete instructions; fulfill [the OwnTime template](../../templates/en/owntime.md), then configure scheduling. The code still depends on Claude CLI. A persona template alone does not complete this integration.
+- **Autonomous activity:** supply Claude CLI, credentials, reading material, and complete instructions; complete [the OwnTime template](../../templates/en/owntime.md), then configure scheduling. The code still depends on Claude CLI. A persona template alone does not complete this integration.
 - **Backup, media, phone location, sensors:** independent optional integrations; see [tools](tools.md).
 
 ## 5. Synthetic validation

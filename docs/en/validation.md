@@ -50,4 +50,4 @@ The entry point generates synthetic phrases and compiles in a temporary copy, le
 - Claude autonomous activity with real credentials, phone location, weather requests, USB sensors, media state, or restic backups.
 - Historical benchmark reruns, full performance comparisons, or persona evaluation.
 
-This record establishes only these specific release-copy paths, not complete deployment of every integration. It is the historical validation record, not a claim that documentation translation reran those checks.
+These checks validate the listed execution paths in an isolated copy of the release; they do not establish that every integration works in a full deployment. It is the historical validation record, not a claim that documentation translation reran those checks.

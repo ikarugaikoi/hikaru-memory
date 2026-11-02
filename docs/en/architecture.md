@@ -4,7 +4,7 @@
 
 ## Responsibilities
 
-The host model interprets, selects, and speaks. Tools store, locate, and enforce explicit structural boundaries. There is no universal score for semantic correctness. Mechanical cues, CA judgments, retrieval relevance, reflection evidence, and compression protections are distinct data.
+The host model interprets evidence, selects material, and generates responses. Tools store and retrieve records and enforce explicit structural constraints. There is no universal score for semantic correctness. Mechanical cues, CA judgments, retrieval relevance, reflection evidence, and compression protections are separate kinds of data.
 
 ## How a new experience is recorded
 
@@ -27,7 +27,7 @@ flowchart TD
     Lang -->|clear or reviewed for this call| Guards[Version, structure, and retention checks]
     Lang -->|suspicious form| Return[Return locations without writing]
     Return --> Input
-    Guards --> Commit[Backup, wrap, and atomic write]
+    Guards --> Commit[Back up, Base64-encode, and write atomically]
     Commit --> Rebuild[Update catalog and indexes by source]
 ```
 
@@ -35,7 +35,7 @@ flowchart TD
 
 ### Main record formats
 
-These are synthetic structural examples. Field names are syntactic; do not translate them before writing records.
+These are synthetic structural examples. Field names are part of the record format; do not translate them when writing records.
 
 **Current-understanding entry:** headings and aliases locate the entity; descriptions and quotations hold interpretation and evidence; revisions belong inside the entry.
 
@@ -78,11 +78,11 @@ flowchart LR
     Model --> Reply[Current response]
 ```
 
-Lexical or semantic similarity does not establish incremental usefulness. The previous occurrence of a word does not guarantee the same referent. The model retains the opportunity to check entity, time, and context.
+Lexical or semantic similarity does not establish incremental usefulness. The previous occurrence of a word does not guarantee the same referent. The model can check the entity, time, and context before using a passage.
 
-Clumping treats days as documents, relates string frequency to days covered, and calibrates against the corpus distribution. Low-frequency aliases or aliases with unknown general frequency receive the current conservative treatment. The score only controls automatic triggers; thresholds explored in one deployment need not be optimal for another person's corpus.
+Clumping treats days as documents, relates string frequency to days covered, and calibrates against the corpus distribution. Low-frequency aliases and aliases with unknown general-language frequency are not excluded by this filter. The score only controls automatic triggers; thresholds explored in one deployment need not be optimal for another person's corpus.
 
-## Revision and fading
+## Revision and memory compression
 
 ```mermaid
 flowchart TD
@@ -91,7 +91,7 @@ flowchart TD
     Revision --> Fields[Revision ID, predecessor, evidence\nScope and earlier statement locations]
     Fields --> Check[Syntax and reference checks]
     Check --> Notes[Write current understanding]
-    Notes --> Readback[Read registered old statements at opening or retrieval]
+    Notes --> Readback[Load earlier statements linked to revisions]
     Readback --> Annotate[Attach revision notes to original text]
     Episodes[Accumulated experiences] --> Plan[Capacity, age, and protection calculation]
     Notes --> Protect[Protection scope of applicable revisions]
@@ -122,9 +122,9 @@ flowchart TD
     Validate --> Footsteps[Daily activity records and works]
     Footsteps --> Me[Reflection on own activities]
     CA[Conversation judgments with subsequent-response evidence] --> Us[Reflection on interaction]
-    Me --> Roots[Deduplicate evidence roots\nDerived content is not new support]
+    Me --> Roots[Deduplicate evidence by original source\nDerived content is not new support]
     Us --> Roots
-    Roots --> Candidate[Candidates revisable by counterexamples]
+    Roots --> Candidate[Candidates open to revision from counterexamples]
     Candidate --> Search[Read back as needed]
 ```
 

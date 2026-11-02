@@ -6,7 +6,7 @@ This document describes calculations in the released source. Defaults are engine
 
 ## I. Autonomous activity: stateful choice and continuation
 
-Main implementations: [Engine.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Engine.hs) and [Fatigue.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Fatigue.hs). Each material has its own state. The activity process also retains fatigue, effort time, current willingness accumulation, and a material-source ledger.
+Main implementations: [Engine.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Engine.hs) and [Fatigue.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Fatigue.hs). Each material has its own state. The activity process also retains fatigue, effort-weighted time, accumulated evidence for continuing, and an activity ledger organized by material origin.
 
 ### 1. Candidate value: interest, familiarity, satiation, and effort
 
@@ -21,7 +21,7 @@ $$
 | I | Estimated interest, 0–1 | Model reports after exposure and historical estimates |
 | F | Familiarity, 0–1 | Contact history with the same material |
 | S | Satiation, 0–1 | Accumulates during exposure, declines when away |
-| e | Effort intensity, 0–1 | Report or estimate with a missing-report reason |
+| e | Effort intensity, 0–1 | Model report, or an estimate accompanied by the reason a report is unavailable |
 | λ | Current cost coefficient for effort | Short-term fatigue and within-day accumulation |
 | w_F | Positive contribution of familiarity | Default 0.3 |
 
@@ -42,7 +42,7 @@ New candidates default to 0.5 for interest and effort. Reports update the estima
 
 ### 3. Familiarity and satiation change at different rates
 
-One genuinely new contact:
+On a new contact with the material:
 
 $$
 F^+=F+a_F(1-F),\qquad S^+=S+a_S(1-S)
@@ -77,7 +77,7 @@ F and S are **states of activity materials**. They do not determine transcript d
 
 ### 4. Short-term fatigue, daily accumulation, and budgets
 
-An activity contributes ΔE = e·d, measured in effort-minutes. Short-term fatigue R updates during work and rest as follows:
+An activity contributes ΔE = e·d, its duration weighted by effort intensity. We call this unit an effort-minute. Short-term fatigue R updates during work and rest as follows:
 
 $$
 R_{work}=1-(1-R)2^{-\Delta E/60},\qquad
@@ -96,7 +96,7 @@ $$
 \lambda=0.5+2(R+U_{live})
 $$
 
-The day's starting U_m is the maximum of recovered U, existing overspending debt D/120, and that day's one-time state self-report. Missing self-reports are not filled with zero; repeated questions cannot select a more favorable number. The starting value freezes at the first actual effort of the day.
+The day's starting U_m is the maximum of recovered U, existing overspending debt D/120, and that day's one-time state self-report. Missing self-reports are not filled with zero; repeated requests for a self-report cannot replace it with a more favorable value. The starting value freezes at the first actual effort of the day.
 
 The base daily budget is B_day = 120(1−U_m). Excess effort becomes debt, capped at 120. Qualifying quiet time at night reduces U and debt with half-lives of 180 and 240 minutes respectively; debt below 5 is cleared after recovery. Short daytime breaks mainly restore R rather than erasing the day's effort.
 
@@ -106,11 +106,11 @@ $$
 Q=\max\left(0,\min(25-A_{advance},\;480-T_{read},\;E_{room})\right)
 $$
 
-- A_advance is reading already delivered but not yet absorbed by elapsed time, retained in a per-material queue.
+- A_advance is the amount of reading material already supplied to the model that has not yet been offset by elapsed time, tracked in a queue for each material.
 - T_read is the day's used equivalent reading time.
 - E_room is remaining effort capacity, including the implementation's limited debt allowance.
 
-Reading and effort are charged once when delivered, not again when elapsed time catches up. Pausing, restarting, or changing days does not erase advance delivery. Writing and making things consume effort but not reading allowance: inability to read more does not prohibit all other activities.
+Reading time and effort are charged once when material is supplied, not again as time elapses. Pausing, restarting, or moving to a new day does not erase material supplied in advance. Writing and making things consume effort but not reading allowance: inability to read more does not prohibit all other activities.
 
 Default conversion rates are 650 Japanese characters/minute, 390 Chinese characters/minute, and 250 English words/minute, with genre coefficients. This is budget accounting, partly dependent on agent reports, not a measurement of actual comprehension.
 
@@ -134,15 +134,15 @@ $$
 g=1-\frac23\mathrm{clip}_{[0,1]}(E_{src}/100)
 $$
 
-User-related candidates receive g; others receive 1. Their weight can fall to one-third but never to zero. Unknown-source effort is accounted for separately, not labeled unrelated. The source ledger has a 2.5-day half-life; minutes added during activity are integrated with decay from when they occurred.
+User-related candidates receive g; others receive 1. Their weight can fall to one-third but never to zero. Unknown-source effort is accounted for separately, not labeled unrelated. The ledger uses a 2.5-day half-life. Effort added during activity is integrated with decay calculated from the time it was expended.
 
 The implementation adds τ·ln(g) to the value used in sampling logits, equivalent to multiplying the weights above. This **only changes candidate exposure**, not interest or the continuation/exit evidence below.
 
 ### 6. Continue or leave: leaky evidence accumulation
 
-At each actual activity node, compare the current material with feasible alternatives.
+At each decision point during an activity, compare the current material with feasible alternatives.
 
-Alternatives are weighted by softmax without source balancing. Comparison uses their post-next-contact values V_i⁺, with rest valued at zero:
+Alternatives are weighted by softmax without source balancing. The comparison uses their values after the next contact, V_i⁺, and assigns rest a value of zero:
 
 $$
 V_{else}=\max\left(0,\sum_i p_i V_i^+\right)
@@ -150,7 +150,7 @@ $$
 
 With no alternatives, V_else = 0. `newContact` applies only if the next step is a new contact; multiple entries for the same material are deduplicated first.
 
-Node evidence m combines willingness and value difference:
+The evidence value m at each decision point combines willingness and the difference in candidate values:
 
 $$
 z=\tanh\left(\frac{V_{here}-V_{else}}{0.25}\right),\qquad
@@ -187,7 +187,7 @@ At x ≤ −0.15, the first crossing requests reselection. If the agent continue
 | Continuation / exit | α, v₀, H_x, η_x, exit threshold | 0.25, 0.25, 60 minutes, 0.5, −0.15 |
 | Source balance | Half-life; reference share; excess scale; weight floor | 2.5 days; 0.2; 100 minutes; 1/3 |
 
-The runner also stops after at most six segments per activity and under conditions such as repeated non-delivery or startup failures. See [Trigger.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Trigger.hs). Defaults are centered in `Fatigue.defaultParams`; not every value is exposed in user JSON.
+The runner also stops after at most six segments per activity and under conditions such as consecutive segments without recorded reading, writing, or other completed activity, or startup failures. See [Trigger.hs](../../.tools/haskell-src/src/Hikaru/OwnTime/Trigger.hs). Defaults are defined in `Fatigue.defaultParams`; not every value is exposed in user JSON.
 
 ## II. Memory: retrieval, triggers, evidence, and compression
 
@@ -244,7 +244,7 @@ $$
 cf>6\quad\land\quad G\ge4.0\quad\land\quad C<0.25
 $$
 
-G is estimated by [_yonotsune.py](../../.tools/_yonotsune.py): tokenize in each candidate language, take the lowest component wordfreq Zipf value, then the highest value among candidate languages. Kana selects Japanese; Latin letters without Han characters select English; otherwise Chinese and Japanese are compared. Unknown frequency, insufficient clumping baselines, or too few occurrences do not block through this condition.
+G is estimated by [_yonotsune.py](../../.tools/_yonotsune.py): tokenize in each candidate language, take the lowest component wordfreq Zipf value, then the highest value among candidate languages. Kana selects Japanese; Latin letters without Han characters select English; otherwise Chinese and Japanese are compared. This condition does not exclude an alias if its frequency is unknown, the clumping baseline is insufficient, or it occurs too rarely.
 
 This is approximate: a private expression composed of common words may have high G, and concentration may reflect language switching rather than an experience. **Current `clumping()` uses a same-frequency corpus baseline; it does not fit a separate character-script background model.** Language selection for general frequency must not be described as having solved language-background correction of clumping.
 
@@ -264,7 +264,7 @@ The main [timeline()](../../.tools/_taguri.py) route:
 
 Global maximum similarity does not substitute for locating the previous session. A timeline establishes occurrence, not referential identity.
 
-An older candidate ranking remains for hook shadow observation:
+An older candidate ranking remains available in the hook’s observation-only mode:
 
 $$
 T(d)=2^{-\mathrm{ageDays}/30}+\mathrm{importance}(d)+\mathrm{relevance}(d)
@@ -283,13 +283,13 @@ Lexical/semantic relevance is gated and normalized separately, then the larger v
 | Hesitation / enjoyment candidate on a user utterance | 0.7 |
 | No other signal | 0.2 |
 
-Take the maximum when multiple cues apply. If an existing contextual judgment explicitly rejects a cue, remove it before taking the maximum. Confirmation retains its original score without another bonus; no reliable conclusion means no invented verdict. Implementation: `_koyori.apply_verdicts`.
+Take the maximum when multiple cues apply. If an existing contextual judgment explicitly rejects a cue, remove it before taking the maximum. Confirming a cue retains its original score without an additional bonus. When no reliable conclusion is available, the system leaves the judgment unresolved. Implementation: `_koyori.apply_verdicts`.
 
 This supports catalog and candidate workflows. It does not make a 0.7 memory more truthful than a 0.2 memory, nor imply that the current timeline necessarily picks higher-importance passages.
 
 ### 5. Reflection: count evidence sets, distinguish resurfacing from support
 
-[_ayame.py](../../.tools/_ayame.py) maintains `surfaced` separately from `evidence` (support, counterexamples, revisions). A repeated evidence root does not add support. Reading and agreeing with material derived from a reflection only records resurfacing. Rereading may still yield a registered counterexample or revision; its origin must not exclude correction.
+[_ayame.py](../../.tools/_ayame.py) maintains `surfaced` separately from `evidence` (support, counterexamples, revisions). Repeated evidence from the same original source does not add support. Reading and agreeing with material derived from a reflection only records resurfacing. Rereading can still produce a counterexample or revision; it is not excluded merely because it comes from previously seen material.
 
 `standing()` checks explicit counts in this order:
 
@@ -300,7 +300,7 @@ This supports catalog and candidate workflows. It does not make a 0.7 memory mor
 | More stable | Support on at least 4 days; counterexamples × 4 < supports; revisions < supports |
 | Undetermined | Otherwise |
 
-Counts use the implementation's deduplication keys. Derived counterexamples/revisions count as rereading events, not new external support roots. Multiple supports on one day do not create additional support days.
+Counts use the implementation's deduplication keys. Derived counterexamples/revisions count as rereading events, not independent external support. Multiple supports on one day do not create additional support days.
 
 These are inspectable state rules, not calibrated belief probabilities. The model still judges whether a subsequent response supports, contradicts, revises, or merely mentions the same thing.
 
@@ -315,7 +315,7 @@ Defaults in [FadePolicy.hs](../../.tools/haskell-src/src/Hikaru/Memory/FadePolic
 
 Counts include structural text in a layer, with leading/trailing whitespace stripped. [planFade](../../.tools/haskell-src/src/Hikaru/Memory/Fade.hs) selects eligible date sections in their stored order until the excess is covered. An ineligible section stops selection; this is not probabilistic deletion across all records.
 
-The model consolidates the selected content. Writes recheck non-target sections, retention markers, and revision protections. Original transcripts remain. Automatic retrieval counts do not serve as a universal lifetime-extension multiplier.
+The model consolidates the selected content. Writes recheck non-target sections, retention markers, and revision protections. Original transcripts remain. Retrieval frequency does not automatically extend a memory’s retention period.
 
 ## III. How the calculations work together
 

@@ -2,7 +2,7 @@
 
 [中文](../limitations.md) · **English** · [日本語](../ja/limitations.md) · [Home](../../README.en.md)
 
-Hikaru implements memory storage, revision, retrieval, association-trigger filtering, and autonomous-activity state updates. Evidence differs by module: synthetic checks verify specific program behavior, while historical replays observe usefulness. Neither substitutes for the other. This document separates observations, unresolved problems, and possible validation directions.
+Hikaru implements memory storage, revision, retrieval, association-trigger filtering, and autonomous-activity state updates. Evidence differs by module: synthetic checks verify specific program behavior, while historical replays observe usefulness. Neither substitutes for the other. This document separates observations, unresolved problems, and possible approaches to validation.
 
 ## Limits by module
 
@@ -10,9 +10,9 @@ Hikaru implements memory storage, revision, retrieval, association-trigger filte
 |---|---|---|
 | Clumping and general frequency | Shared expressions built from common words can look ordinary; language switching can also create concentration | Freeze statistical definitions and validate on later dates and different language proportions; track losses of shared expressions separately |
 | Entity timeline | The same word need not refer to the same entity; the latest mention need not be the most useful | Consider small experiments with Combinatory Categorial Grammar (CCG) syntax–semantics and anaphora/presupposition in Dependent Type Semantics (DTS), to check referents and event roles |
-| Delivery and usefulness | No reliable method yet for deciding a candidate's actual use in the current conversation; delivery or mention is not proof of usefulness | No mature approach yet |
-| Active retrieval | Tool access does not ensure invocation when needed; similarity ranking does not equal usefulness | Consider experiments with compositional semantic representations and type-theoretic proof search to help query/candidate checks of predicate–argument, negation, and conditional relations. Whether the model initiates retrieval remains separate |
-| CA review and understanding revision | Programs check structures and consume judgments; context, evidential relationships, and scope still depend on the model | Consider experimental combinations of latent-cause learning and CA observations to explore when new experience should revise an expectation versus distinguish contexts |
+| Delivery and usefulness | No reliable method yet for deciding whether a candidate would be useful in the current conversation; delivery or mention is not proof of usefulness | No established method yet |
+| Active retrieval | Tool access does not ensure invocation when needed; similarity ranking does not equal usefulness | Consider experiments with compositional semantic representations and type-theoretic proof search to check predicate–argument structure, negation, and conditional relations between queries and candidates. Whether the model initiates retrieval remains separate |
+| CA review and understanding revision | Programs check structures and consume judgments; context, evidential relationships, and scope still depend on the model | Consider experimental combinations of latent-cause learning and CA observations to explore when new experience should revise an expectation and when it should be treated as specific to a different context |
 | Reflection and self-reinforcement | Deduplication prevents some double counting but cannot identify every mistaken support judgment | Needs more long-term operational data; no specific improvement plan yet |
 | Compression and long-term retention | Protections and original records remain, but timely recovery of important compressed details is unverified | Needs more long-term operational data; no specific improvement plan yet |
 | Autonomous activity | Interest/effort inputs come from the model; defaults are engineering choices without long-term effectiveness validation | Needs more long-term operational data; no specific improvement plan yet |
@@ -38,7 +38,7 @@ The candidate condition disabled an automatic trigger when occurrences > 6, gene
 
 ### Retained parameter comparisons
 
-The interim summary retained the following rounded values. Each cell is “retention of concrete names/shared expressions / blocking of everyday expressions”:
+The interim summary retained the following rounded values. Each cell shows “concrete names/shared expressions retained / everyday expressions excluded”:
 
 | General-frequency minimum | Clumping upper bound | By day | By session segment |
 |---|---|---|---|
@@ -57,11 +57,11 @@ Other explorations mainly survive as these notes:
 | Reference string length | 2–4, 2–6, 3–8 characters | Report selected 2–4 |
 | Reference size and seeds | 1,000, 3,000, 6,000; three random seeds | Report found relative stability at 3,000 and above; full tables not retained |
 | Character-script background correction | None vs. script-based correction | Reduced some language-switch effects but also suppressed topics, so not adopted as a filtering criterion |
-| Low-frequency exemption | Final condition exempts occurrences ≤ 6 | No per-threshold comparisons recovered; 6 is not established as a thoroughly optimized choice |
+| Low-frequency exemption | Final condition exempts occurrences ≤ 6 | No comparisons across thresholds have been recovered; 6 is not established as a thoroughly optimized choice |
 
 Later checks found that 0.25 versus 0.35 changed treatment of only four aliases, none of which triggered delivery in that replay. The less restrictive 0.25 was chosen; this does not show general superiority over 0.35.
 
-### Vocabulary exploration
+### Alias-level evaluation
 
 | Metric | Reported value | Interpretation |
 |---|---:|---|
