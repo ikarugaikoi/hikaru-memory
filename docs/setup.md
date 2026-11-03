@@ -77,6 +77,8 @@ python3 scripts/hikaru omoide '例子' --mode lexical
 - **自主活动**：需自行准备 Claude CLI、凭据、阅读材料与完整指令，填充 `templates/owntime.md` 的要求，再配置调度。当前代码仍依赖 Claude CLI；角色模板不等于已完成自主活动接入。
 - **备份/媒体/手机位置/传感器**：都是独立可选项，见工具索引。
 
+- **重复表达反馈**：手动合并 [hook 模板](../templates/hooks.voice.example.json)，并填写自己的排除项和评估词表。见[完整说明](voice-feedback.md)；不自动启用。
+
 ## 5. 合成验证
 
 `tests/smoke.py` 使用临时副本、合成对话和禁止网络的沙盒。测试构建须使用公开的合成口令，不能拿编入私人口令的二进制当作测试配置；具体运行入口与范围见 [validation.md](validation.md)。

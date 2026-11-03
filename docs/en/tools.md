@@ -104,3 +104,7 @@ Entry: `python3 scripts/hikaru owntime ...`. Source: `Hikaru/OwnTime/`.
 - `scripts/hikaru`: set this installation's paths for tools.
 - `tests/smoke.py`: validate key paths with synthetic inputs in a temporary installation.
 - `scripts/package.py`: package only allowlisted public files, excluding generated local data and binaries.
+
+## Expression feedback (optional)
+
+`python3 scripts/hikaru _tomonari_koe --prompt` handles user-message hooks; `--after-tool` handles completion of the opening tool. `scripts/voice_baseline.py` measures archived expression reuse against a frozen cue list. See [integration and data boundaries](voice-feedback.md).

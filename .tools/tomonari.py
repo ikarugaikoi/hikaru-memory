@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Find overlapping rules across instruction files before adding another rule."""
+"""Recent-expression feedback is provided separately by _tomonari_koe.py.
+
+Find overlapping rules across instruction files before adding another rule."""
 import ast
 import pathlib
 import re

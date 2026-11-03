@@ -104,3 +104,7 @@
 - `scripts/hikaru`：为工具设置本安装路径。
 - `tests/smoke.py`：在临时安装目录使用合成输入验证关键链路。
 - `scripts/package.py`：只按公开文件清单打包，排除本地生成的数据与二进制。
+
+## 重复表达反馈（可选）
+
+`python3 scripts/hikaru _tomonari_koe --prompt` 接用户输入 hook，`--after-tool` 接开场工具完成后的 hook。`scripts/voice_baseline.py` 按冻结词表统计归档中的表达复用。功能、数据边界与模板见[接入说明](voice-feedback.md)。

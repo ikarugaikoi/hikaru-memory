@@ -104,3 +104,7 @@
 - `scripts/hikaru`：このインストール先のパスをツールに渡す。
 - `tests/smoke.py`：一時インストールに合成入力を与え、主要経路を検証。
 - `scripts/package.py`：公開許可リストにあるファイルだけをアーカイブに含め、ローカル生成データとバイナリを除外。
+
+## 表現フィードバック（任意）
+
+`python3 scripts/hikaru _tomonari_koe --prompt` はユーザー入力時、`--after-tool` は開始時ツールの終了後に呼ぶ hook です。`scripts/voice_baseline.py` は固定した語句リストで保存済みの発話を集計します。[接続方法と対象範囲](voice-feedback.md)を参照してください。

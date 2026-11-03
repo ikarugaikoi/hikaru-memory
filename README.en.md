@@ -16,6 +16,10 @@ Hikaru combines a **Haskell core with Python retrieval and support tools**, expo
 
 This repository contains sanitized source, blank configuration, and integration templates. Users supply their own persona, names, private experiences, no-record phrases, location, and credentials.
 
+## Latest update
+
+**2026-11-04 · Feedback on repeated expressions**: An optional mechanism shows the model how recently it has used names, aliases, and recurring phrases, helping it decide whether to mention something again, rephrase it, act on it, or leave it unspoken. Integration templates and a measurement script are included. [Details](docs/en/voice-feedback.md)
+
 ## What it is for
 
 Long-term interaction involves more than remembering preferences:
@@ -96,6 +100,10 @@ Three calculations follow:
 Activities leave records of what was actually read or done, material progress, works, and possible reflections. Records distinguish source content, the author's views, and the assistant's interpretation, as well as completed and unfinished work. Later activities inherit this state.
 
 This module has additional environment dependencies. The repository includes its state machine, tools, and integration templates; installation does not launch a model, configure phone location, or register scheduled jobs.
+
+### 7. Remember an experience without repeating its wording
+
+Optional expression feedback reports recent use of names, aliases, and stock expressions at conversation opening and on user messages. Protected quotations carry separate contextual guidance; their preservation does not depend on frequency. The model decides whether to reuse the wording, rephrase it, reflect the memory in a choice, or leave it unspoken. Replies are not rewritten automatically. See [expression feedback and integration](docs/en/voice-feedback.md).
 
 ## Memory processing
 

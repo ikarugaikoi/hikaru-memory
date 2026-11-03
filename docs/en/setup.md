@@ -81,6 +81,8 @@ Host hooks can call `python3 /absolute/path/scripts/hikaru ima`, `oshirase`, or 
 - **Autonomous activity:** supply Claude CLI, credentials, reading material, and complete instructions; complete [the OwnTime template](../../templates/en/owntime.md), then configure scheduling. The code still depends on Claude CLI. A persona template alone does not complete this integration.
 - **Backup, media, phone location, sensors:** independent optional integrations; see [tools](tools.md).
 
+- **Expression feedback**: manually merge the [hook template](../../templates/hooks.voice.example.json) and supply your own exclusions and evaluation cues. See [the guide](voice-feedback.md); it is not enabled automatically.
+
 ## 5. Synthetic validation
 
 `tests/smoke.py` uses a temporary copy, synthetic conversations, and a network-denying sandbox. Test builds must use public synthetic phrases, not binaries containing private phrases. See [validation](validation.md) for commands and scope.

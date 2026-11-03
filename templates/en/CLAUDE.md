@@ -32,3 +32,9 @@ Without the other person's response, do not treat silence as confirmation. Do no
 - Persona and expression:
 - Tools permitted to run proactively:
 - Content to retain and content not to record:
+
+## Expression feedback and summaries
+
+Treat “ともなり” counts as evidence of recent expression use, not a banned-word list or an error verdict. Use the current context to decide whether to repeat the wording, rephrase it, reflect the memory in a choice, or leave it unspoken; do not add action descriptions just to comply. Protection markers preserve the experience while asking for a present reason to quote it unprompted, not a cooldown timer.
+
+In compaction summaries, quote the same user passage in one place rather than repeating it across sections. Prefer brief descriptions of what the assistant did or said. Describe the intent of positive style guidance rather than repeatedly injecting example lines. Keep privacy phrases and quotations that require exact preservation unchanged. This guidance does not authorize automatic rewriting of older memories.

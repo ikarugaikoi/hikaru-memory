@@ -23,7 +23,7 @@ for key,value in {
 }.items():put(key,value)
 name=sys.argv[1];args=sys.argv[2:]
 core={'fuutou','mezame','ima','oshirase','ochibo','shirushi','choubo','koyomi'}
-python={'omoide','_embed','_koyori','_taguri','taguri_hook','_yonotsune','_ayame','_kotoba','_prune','_misekechi','doko','doko_recv','kehai','kohaku','kotozute','tomonari','omron_read','mizukagami'}
+python={'omoide','_embed','_koyori','_taguri','taguri_hook','_yonotsune','_ayame','_kotoba','_prune','_misekechi','doko','doko_recv','kehai','kohaku','kotozute','tomonari','_tomonari_koe','omron_read','mizukagami'}
 if name in core: cmd=[str(root/'.tools/bin/hikaru-core'),name,*args]
 elif name=='owntime':cmd=[str(root/'.tools/bin/hikaru-owntime'),*args]
 elif name in python:cmd=[sys.executable,str(root/'.tools'/f'{name}.py'),*args]

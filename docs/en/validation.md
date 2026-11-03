@@ -51,3 +51,7 @@ The entry point generates synthetic phrases and compiles in a temporary copy, le
 - Historical benchmark reruns, full performance comparisons, or persona evaluation.
 
 These checks validate the listed execution paths in an isolated copy of the release; they do not establish that every integration works in a full deployment. It is the historical validation record, not a claim that documentation translation reran those checks.
+
+## November 4, 2026: expression feedback update
+
+`python3 -B tests/voice_feedback.py` passed 17 sanitized original regression cases and 23 integration/evaluation checks, 40 in total, in a separate release checkout. Synthetic text and privacy phrases were used with network and real user-directory access denied. Checks cover launcher recognition, hook JSON, protection markers, deduplication, compaction, period boundaries, short sentences, greetings, count units, and archive progress. No real conversations, model calls, host sessions or Haskell rebuilds were involved. These checks do not establish improved conversational naturalness. See [the module guide](voice-feedback.md).

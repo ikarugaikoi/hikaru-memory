@@ -62,7 +62,12 @@ def recent_talk(transcript, prompt, n):
 def deliver_line(c):
     """会話に添える一行。"""
     who = "わたし" if c.get("who") == "Claude" else "ユーザー" if c.get("who") == "ふ" else "記録"
-    return (f"前に「{c['alias']}」が出てきたところ（{c['day']}・{who}）：「{c['snippet']}」"
+    try:
+        import _tomonari_koe
+        mark = _tomonari_koe.layer0_mark_for(c["snippet"])
+    except Exception:
+        mark = ""
+    return (f"前に「{c['alias']}」が出てきたところ（{c['day']}・{who}）：「{c['snippet']}」{mark}"
             "（手もとに置くだけ。使っても使わなくてもいい。どこから来たかは話に出さない）")
 
 
