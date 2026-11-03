@@ -2,7 +2,9 @@
 
 [中文](../voice-feedback.md) · **English** · [日本語](../ja/voice-feedback.md) · [Home](../../README.en.md)
 
-A memory can continue to guide a reply without its nickname or original wording being repeated. This optional module reports recent expression use. The model decides whether to reuse the wording, rephrase it, reflect the memory in a choice, or say nothing about it. The tool neither rewrites replies nor judges repetition to be wrong.
+Over time, an AI may accurately remember a preference or something said in a shared conversation, yet bring it up repeatedly. Remembering that a user gets hot easily can help it suggest light clothing; saying “I remember you get hot easily” with every suggestion can feel forced. When conversation context is summarized or a new session begins, the experience itself may remain available while the history of how often it has recently been mentioned is lost.
+
+This optional module provides feedback on recent expression use, giving the model a way to notice its own repetition. The model can then consider the current situation and decide whether to bring something up again, rephrase it, let the memory guide a choice, or leave it unspoken. The module supplies counts and prompts; it does not rewrite replies or treat all repetition as a mistake. The aim is to improve how memories are used while allowing past experiences to continue shaping later interactions.
 
 ## Entry points
 
