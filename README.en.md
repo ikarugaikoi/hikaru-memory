@@ -4,6 +4,10 @@
 
 Personal AI memory tools for an ongoing relationship. Hikaru preserves experiences, maintains a current understanding, retrieves relevant history in new conversations, and records why that understanding changed.
 
+> **[Hikaru Poetics — Design principles](docs/en/poetics.md)**
+>
+> Our working assumptions, the actor metaphor, and how we think about memory, input, and sustained interaction.
+
 **[Known limitations and possible improvements](docs/en/limitations.md)**: current limits, unresolved problems, and possible experiments, followed by historical association-filter results.
 
 **[LoCoMo memory experiment report](docs/en/locomo-2026-11-02.md)**: experiments from October 31 to November 2, 2026, covering transcript retrieval, a full-context baseline, memory consolidation, and conversation review, with the actual prompts, automated scores, and costs.
